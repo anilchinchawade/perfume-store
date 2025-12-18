@@ -13,26 +13,78 @@ export default function Home() {
   }, []);
 
   return (
-    <div className="p-6 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
-      {products.map((product) => (
-        <div
-          key={product._id}
-          onClick={() => navigate(`/product/${product._id}`)}
-          className="border rounded-lg p-4 cursor-pointer hover:shadow-lg transition"
-        >
-          <img
-            src={product.image}
-            alt={product.name}
-            className="h-48 w-full object-cover rounded"
-          />
+    <div className="bg-gray-50 min-h-screen">
+      <div className="max-w-7xl mx-auto px-6 py-10">
+        {/* Page Heading */}
+        <h1 className="text-3xl font-bold text-gray-800 mb-8 text-center">
+          🌸 Our Premium Perfume Collection
+        </h1>
 
-          <h2 className="mt-2 font-bold text-lg">{product.name}</h2>
+        {/* Product Grid */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
+          {products.map((product) => (
+            <div
+              key={product._id}
+              onClick={() => navigate(`/product/${product._id}`)}
+              className="bg-white rounded-2xl shadow-md hover:shadow-2xl
+                         transition-all duration-300 cursor-pointer
+                         group overflow-hidden"
+            >
+              {/* Image Section */}
+              <div className="h-60 bg-gray-100 flex items-center justify-center overflow-hidden">
+                {
+                  /* <img
+                  src={product.image}
+                  alt={product.name}
+                  onError={(e) => {
+                    e.target.src =
+                      'https://via.placeholder.com/300x300?text=Perfume';
+                  }}
+                  className="h-full w-full object-cover
+                             group-hover:scale-110 transition duration-300"
+                /> */
+                  <img
+                    src={product.image}
+                    alt={product.name}
+                    onError={(e) => {
+                      e.target.src =
+                        'https://images.unsplash.com/photo-1594035910387-fea47794261f';
+                    }}
+                    className="h-full w-full object-cover
+             group-hover:scale-110 transition duration-300"
+                  />
+                }
+              </div>
 
-          <p className="text-sm text-gray-600">{product.brand}</p>
+              {/* Content Section */}
+              <div className="p-5">
+                <h2 className="text-lg font-semibold text-gray-800 truncate">
+                  {product.name}
+                </h2>
 
-          <p className="mt-1 font-semibold">₹{product.price}</p>
+                <p className="text-sm text-gray-500 mt-1">{product.brand}</p>
+
+                <div className="flex justify-between items-center mt-4">
+                  <span className="text-xl font-bold text-pink-600">
+                    ₹{product.price}
+                  </span>
+
+                  <span className="text-xs bg-gray-200 px-3 py-1 rounded-full">
+                    {product.volume} ml
+                  </span>
+                </div>
+
+                <button
+                  className="mt-5 w-full bg-black text-white py-2 rounded-lg
+                             hover:bg-pink-600 transition"
+                >
+                  View Details
+                </button>
+              </div>
+            </div>
+          ))}
         </div>
-      ))}
+      </div>
     </div>
   );
 }

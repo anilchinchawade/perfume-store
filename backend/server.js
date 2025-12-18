@@ -8,6 +8,12 @@ const app = express();
 // const Product = require("./models/Product");
 const productRoutes = require("./routes/productRoutes");
 
+const uploadRoutes = require("./routes/uploadRoutes");
+
+const authRoutes = require("./routes/authRoutes");
+
+
+
 
 
 app.use(cors());
@@ -15,6 +21,8 @@ app.use(express.json());
 
 // Routes
 app.use("/api/products", productRoutes);
+app.use("/api/upload", uploadRoutes);
+app.use("/api/auth", authRoutes);
 
 
 // MongoDB connection

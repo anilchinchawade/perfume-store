@@ -4,8 +4,10 @@ import AdminAddProduct from './pages/AdminAddProduct';
 import Navbar from './components/Navbar';
 import Home from './pages/Home';
 import ProductDetails from './pages/ProductDetails';
+import AdminLogin from './pages/AdminLogin';
 
 function App() {
+  const isAdmin = !!localStorage.getItem('adminToken');
   return (
     <BrowserRouter>
       <Navbar />
@@ -14,6 +16,10 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route path="/product/:id" element={<ProductDetails />} />
         <Route path="/admin/add-product" element={<AdminAddProduct />} />
+        <Route
+          path="/admin/add-product"
+          element={isAdmin ? <AdminAddProduct /> : <AdminLogin />}
+        />
       </Routes>
     </BrowserRouter>
   );

@@ -9,7 +9,11 @@ const {
     deleteProduct,
 } = require("../controllers/productController");
 
-router.post("/", createProduct);
+const { protect } = require("../middleware/authMiddleware");
+
+
+// router.post("/", createProduct);
+router.post("/", protect, createProduct);
 router.get("/", getAllProducts);
 router.get("/:id", getProductById);
 router.put("/:id", updateProduct);
