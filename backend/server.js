@@ -6,10 +6,16 @@ require("dotenv").config();
 const app = express();
 
 // const Product = require("./models/Product");
+const productRoutes = require("./routes/productRoutes");
+
 
 
 app.use(cors());
 app.use(express.json());
+
+// Routes
+app.use("/api/products", productRoutes);
+
 
 // MongoDB connection
 mongoose.connect(process.env.MONGO_URI, {
