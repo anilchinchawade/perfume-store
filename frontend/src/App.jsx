@@ -1,40 +1,34 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import AdminAddProduct from './pages/AdminAddProduct';
 
-import Navbar from './components/Navbar';
+import Layout from './components/Layout';
 import Home from './pages/Home';
 import ProductDetails from './pages/ProductDetails';
+import AdminAddProduct from './pages/AdminAddProduct';
 import AdminLogin from './pages/AdminLogin';
+import ProtectedAdminRoute from './components/ProtectedAdminRoute';
 
 function App() {
-  const isAdmin = !!localStorage.getItem('adminToken');
   return (
     <BrowserRouter>
-      <Navbar />
+      <Layout>
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/product/:id" element={<ProductDetails />} />
 
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/product/:id" element={<ProductDetails />} />
-        <Route path="/admin/add-product" element={<AdminAddProduct />} />
-        <Route
-          path="/admin/add-product"
-          element={isAdmin ? <AdminAddProduct /> : <AdminLogin />}
-        />
-      </Routes>
+          <Route path="/admin/login" element={<AdminLogin />} />
+
+          <Route
+            path="/admin/add-product"
+            element={
+              <ProtectedAdminRoute>
+                <AdminAddProduct />
+              </ProtectedAdminRoute>
+            }
+          />
+        </Routes>
+      </Layout>
     </BrowserRouter>
   );
 }
 
 export default App;
-
-// function App() {
-//   return (
-//     <div className="h-screen bg-black flex items-center justify-center">
-//       <h1 className="text-4xl font-bold text-pink-500">
-//         Tailwind is Working ✅
-//       </h1>
-//     </div>
-//   );
-// }
-
-// export default App;

@@ -17,7 +17,9 @@ export default function AdminLogin() {
       });
 
       localStorage.setItem('adminToken', res.data.token);
-      navigate('/admin/add-product');
+      //navigate('/admin/add-product');
+      // ✅ FORCE NAVIGATION
+      navigate('/admin/add-product', { replace: true });
     } catch {
       alert('Invalid credentials ❌');
     }
