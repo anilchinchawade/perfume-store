@@ -12,8 +12,16 @@ export default function AdminProductList() {
     setProducts(res.data);
   };
 
+  // useEffect(() => {
+  //   fetchProducts();
+  // }, []);
   useEffect(() => {
-    fetchProducts();
+    const loadProducts = async () => {
+      const res = await axios.get('http://localhost:5000/api/products');
+      setProducts(res.data);
+    };
+
+    loadProducts();
   }, []);
 
   const handleDelete = async (id) => {
