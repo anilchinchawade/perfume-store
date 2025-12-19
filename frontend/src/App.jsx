@@ -6,6 +6,7 @@ import ProductDetails from './pages/ProductDetails';
 import AdminAddProduct from './pages/AdminAddProduct';
 import AdminLogin from './pages/AdminLogin';
 import ProtectedAdminRoute from './components/ProtectedAdminRoute';
+import AdminProductList from './pages/AdminProductList';
 
 function App() {
   return (
@@ -22,6 +23,14 @@ function App() {
             element={
               <ProtectedAdminRoute>
                 <AdminAddProduct />
+              </ProtectedAdminRoute>
+            }
+          />
+          <Route
+            path="/admin/products"
+            element={
+              <ProtectedAdminRoute>
+                <AdminProductList />
               </ProtectedAdminRoute>
             }
           />

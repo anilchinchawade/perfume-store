@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom';
 import { useState } from 'react';
+import { isTokenValid } from '../utils/auth';
 
 export default function Navbar() {
   const [open, setOpen] = useState(false);
@@ -34,6 +35,15 @@ export default function Navbar() {
             Cart
           </Link>
         </div>
+      )}
+
+      {isTokenValid() && (
+        <Link
+          to="/admin/products"
+          className="text-sm font-medium hover:text-pink-600"
+        >
+          Admin Products
+        </Link>
       )}
     </nav>
   );
