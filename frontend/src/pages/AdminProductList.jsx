@@ -8,6 +8,9 @@ export default function AdminProductList() {
   const [category, setCategory] = useState('All');
 
   const [products, setProducts] = useState([]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 5; // you can change this
+
   const navigate = useNavigate();
 
   const fetchProducts = async () => {
@@ -24,6 +27,10 @@ export default function AdminProductList() {
     loadProducts();
   }, []);
 
+  // useEffect(() => {
+  //   setCurrentPage(1);
+  // }, [search, category]);
+
   const filteredProducts = products.filter((product) => {
     const matchesSearch =
       product.name.toLowerCase().includes(search.toLowerCase()) ||
@@ -33,6 +40,13 @@ export default function AdminProductList() {
 
     return matchesSearch && matchesCategory;
   });
+
+  const totalPages = Math.ceil(filteredProducts.length / itemsPerPage);
+
+  const startIndex = (currentPage - 1) * itemsPerPage;
+  const endIndex = startIndex + itemsPerPage;
+
+  const paginatedProducts = filteredProducts.slice(startIndex, endIndex);
 
   const handleDelete = async (id) => {
     if (!window.confirm('Are you sure you want to delete this product?'))
@@ -69,14 +83,20 @@ export default function AdminProductList() {
             type="text"
             placeholder="Search by name or brand"
             value={search}
-            onChange={(e) => setSearch(e.target.value)}
+            onChange={(e) => {
+              setSearch(e.target.value);
+              setCurrentPage(1);
+            }}
             className="border px-3 py-2 rounded w-64"
           />
 
           {/* Category Filter */}
           <select
             value={category}
-            onChange={(e) => setCategory(e.target.value)}
+            onChange={(e) => {
+              setCategory(e.target.value);
+              setCurrentPage(1);
+            }}
             className="border px-3 py-2 rounded"
           >
             <option value="All">All</option>
@@ -109,7 +129,8 @@ export default function AdminProductList() {
 
           <tbody>
             {/* {products.map((product) => ( */}
-            {filteredProducts.map((product) => (
+            {/* {filteredProducts.map((product) => ( */}
+            {paginatedProducts.map((product) => (
               <tr key={product._id} className="border-t">
                 <td className="p-3">
                   <img
@@ -152,6 +173,23 @@ export default function AdminProductList() {
             )}
           </tbody>
         </table>
+        {totalPages > 1 && (
+          <div className="flex justify-center mt-6 space-x-2">
+            {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
+              <button
+                key={page}
+                onClick={() => setCurrentPage(page)}
+                className={`px-3 py-1 rounded border ${
+                  currentPage === page
+                    ? 'bg-black text-white'
+                    : 'bg-white hover:bg-gray-100'
+                }`}
+              >
+                {page}
+              </button>
+            ))}
+          </div>
+        )}
       </div>
     </div>
   );
