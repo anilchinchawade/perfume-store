@@ -1,11 +1,14 @@
 import { useParams } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { getProductById } from '../services/productService';
+// import { useCart } from '../context/CartContext';
+import { useCart } from '../context/useCart';
 
 export default function ProductDetails() {
   const { id } = useParams();
   const [product, setProduct] = useState(null);
   const [loading, setLoading] = useState(true);
+  const { addToCart } = useCart();
 
   useEffect(() => {
     getProductById(id)
@@ -70,6 +73,7 @@ export default function ProductDetails() {
           </div>
 
           <button
+            onClick={() => addToCart(product)}
             className="mt-8 bg-black text-white px-8 py-3 rounded
                        hover:bg-pink-600 transition"
           >

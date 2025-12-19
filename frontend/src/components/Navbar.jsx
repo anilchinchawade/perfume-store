@@ -1,9 +1,12 @@
 import { Link } from 'react-router-dom';
 import { useState } from 'react';
 import { isTokenValid } from '../utils/auth';
+// import { useCart } from '../context/CartContext';
+import { useCart } from '../context/useCart';
 
 export default function Navbar() {
   const [open, setOpen] = useState(false);
+  const { cartItems } = useCart();
 
   return (
     <nav className="bg-white shadow-md">
@@ -17,7 +20,7 @@ export default function Navbar() {
             Home
           </Link>
           <Link to="/cart" className="hover:text-pink-600">
-            Cart
+            Cart ({cartItems.length})
           </Link>
         </div>
 

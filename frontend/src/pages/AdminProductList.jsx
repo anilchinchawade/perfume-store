@@ -11,6 +11,8 @@ export default function AdminProductList() {
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 5; // you can change this
 
+  const [selectedIds, setSelectedIds] = useState([]);
+
   const navigate = useNavigate();
 
   const fetchProducts = async () => {
@@ -26,10 +28,6 @@ export default function AdminProductList() {
 
     loadProducts();
   }, []);
-
-  // useEffect(() => {
-  //   setCurrentPage(1);
-  // }, [search, category]);
 
   const filteredProducts = products.filter((product) => {
     const matchesSearch =
@@ -61,19 +59,42 @@ export default function AdminProductList() {
     fetchProducts();
   };
 
+  const toggleSelect = (id) => {
+    setSelectedIds((prev) =>
+      prev.includes(id) ? prev.filter((pid) => pid !== id) : [...prev, id]
+    );
+  };
+
+  const toggleSelectAll = () => {
+    if (selectedIds.length === paginatedProducts.length) {
+      setSelectedIds([]);
+    } else {
+      setSelectedIds(paginatedProducts.map((p) => p._id));
+    }
+  };
+
+  const handleBulkDelete = async () => {
+    if (selectedIds.length === 0) {
+      alert('No products selected');
+      return;
+    }
+
+    if (!window.confirm('Delete selected products?')) return;
+
+    for (const id of selectedIds) {
+      await axios.delete(`http://localhost:5000/api/products/${id}`, {
+        headers: {
+          Authorization: `Bearer ${getToken()}`,
+        },
+      });
+    }
+
+    setSelectedIds([]);
+    fetchProducts();
+  };
+
   return (
     <div className="max-w-6xl mx-auto p-6">
-      {/* <div className="flex justify-between items-center mb-6">
-        <h1 className="text-2xl font-bold">Admin – Product List</h1>
-
-        <button
-          onClick={() => navigate('/admin/add-product')}
-          className="bg-black text-white px-4 py-2 rounded hover:bg-pink-600"
-        >
-          + Add Product
-        </button>
-      </div> */}
-
       <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-6">
         <h1 className="text-2xl font-bold">Admin – Product List</h1>
 
@@ -114,10 +135,29 @@ export default function AdminProductList() {
         </div>
       </div>
 
+      {selectedIds.length > 0 && (
+        <button
+          onClick={handleBulkDelete}
+          className="bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700"
+        >
+          Delete Selected ({selectedIds.length})
+        </button>
+      )}
+
       <div className="overflow-x-auto bg-white shadow rounded">
         <table className="w-full text-left border-collapse">
           <thead className="bg-gray-100">
             <tr>
+              <th className="p-3">
+                <input
+                  type="checkbox"
+                  checked={
+                    paginatedProducts.length > 0 &&
+                    selectedIds.length === paginatedProducts.length
+                  }
+                  onChange={toggleSelectAll}
+                />
+              </th>
               <th className="p-3">Image</th>
               <th className="p-3">Name</th>
               <th className="p-3">Brand</th>
@@ -128,17 +168,21 @@ export default function AdminProductList() {
           </thead>
 
           <tbody>
-            {/* {products.map((product) => ( */}
-            {/* {filteredProducts.map((product) => ( */}
             {paginatedProducts.map((product) => (
               <tr key={product._id} className="border-t">
                 <td className="p-3">
-                  <img
-                    src={product.image}
-                    alt={product.name}
-                    className="h-12 w-12 object-cover rounded"
+                  <input
+                    type="checkbox"
+                    checked={selectedIds.includes(product._id)}
+                    onChange={() => toggleSelect(product._id)}
                   />
                 </td>
+                <img
+                  src={product.image}
+                  alt={product.name}
+                  className="h-12 w-12 object-cover rounded"
+                />
+                {/* </td> */}
                 <td className="p-3">{product.name}</td>
                 <td className="p-3">{product.brand}</td>
                 <td className="p-3">₹{product.price}</td>
@@ -163,7 +207,6 @@ export default function AdminProductList() {
               </tr>
             ))}
 
-            {/* {products.length === 0 && ( */}
             {filteredProducts.length === 0 && (
               <tr>
                 <td colSpan="6" className="p-4 text-center text-gray-500">

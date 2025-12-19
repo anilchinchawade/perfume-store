@@ -8,6 +8,7 @@ import AdminLogin from './pages/AdminLogin';
 import ProtectedAdminRoute from './components/ProtectedAdminRoute';
 import AdminProductList from './pages/AdminProductList';
 import AdminEditProduct from './pages/AdminEditProduct';
+import Cart from './pages/Cart';
 
 function App() {
   return (
@@ -43,6 +44,7 @@ function App() {
               </ProtectedAdminRoute>
             }
           />
+          <Route path="/cart" element={<Cart />} />
         </Routes>
       </Layout>
     </BrowserRouter>

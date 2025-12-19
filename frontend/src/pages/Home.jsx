@@ -1,10 +1,14 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { getAllProducts } from '../services/productService';
+import { useCart } from '../context/useCart';
+
+// import { CartProvider } from './context/CartContext';
 
 export default function Home() {
   const [products, setProducts] = useState([]);
   const navigate = useNavigate();
+  const { addToCart } = useCart();
 
   useEffect(() => {
     getAllProducts().then((data) => {
@@ -33,16 +37,6 @@ export default function Home() {
               {/* Image Section */}
               <div className="h-60 bg-gray-100 flex items-center justify-center overflow-hidden">
                 {
-                  /* <img
-                  src={product.image}
-                  alt={product.name}
-                  onError={(e) => {
-                    e.target.src =
-                      'https://via.placeholder.com/300x300?text=Perfume';
-                  }}
-                  className="h-full w-full object-cover
-                             group-hover:scale-110 transition duration-300"
-                /> */
                   <img
                     src={product.image}
                     alt={product.name}
@@ -79,6 +73,12 @@ export default function Home() {
                              hover:bg-pink-600 transition"
                 >
                   View Details
+                </button>
+                <button
+                  onClick={() => addToCart(product)}
+                  className="mt-3 bg-black text-white px-4 py-2 rounded hover:bg-pink-600"
+                >
+                  Add to Cart
                 </button>
               </div>
             </div>
