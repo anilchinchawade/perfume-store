@@ -4,6 +4,9 @@ import { getToken } from '../utils/auth';
 import { useNavigate } from 'react-router-dom';
 
 export default function AdminProductList() {
+  const [search, setSearch] = useState('');
+  const [category, setCategory] = useState('All');
+
   const [products, setProducts] = useState([]);
   const navigate = useNavigate();
 
@@ -12,9 +15,6 @@ export default function AdminProductList() {
     setProducts(res.data);
   };
 
-  // useEffect(() => {
-  //   fetchProducts();
-  // }, []);
   useEffect(() => {
     const loadProducts = async () => {
       const res = await axios.get('http://localhost:5000/api/products');
@@ -23,6 +23,16 @@ export default function AdminProductList() {
 
     loadProducts();
   }, []);
+
+  const filteredProducts = products.filter((product) => {
+    const matchesSearch =
+      product.name.toLowerCase().includes(search.toLowerCase()) ||
+      product.brand.toLowerCase().includes(search.toLowerCase());
+
+    const matchesCategory = category === 'All' || product.category === category;
+
+    return matchesSearch && matchesCategory;
+  });
 
   const handleDelete = async (id) => {
     if (!window.confirm('Are you sure you want to delete this product?'))
@@ -39,7 +49,7 @@ export default function AdminProductList() {
 
   return (
     <div className="max-w-6xl mx-auto p-6">
-      <div className="flex justify-between items-center mb-6">
+      {/* <div className="flex justify-between items-center mb-6">
         <h1 className="text-2xl font-bold">Admin – Product List</h1>
 
         <button
@@ -48,6 +58,40 @@ export default function AdminProductList() {
         >
           + Add Product
         </button>
+      </div> */}
+
+      <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-6">
+        <h1 className="text-2xl font-bold">Admin – Product List</h1>
+
+        <div className="flex gap-3">
+          {/* Search */}
+          <input
+            type="text"
+            placeholder="Search by name or brand"
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+            className="border px-3 py-2 rounded w-64"
+          />
+
+          {/* Category Filter */}
+          <select
+            value={category}
+            onChange={(e) => setCategory(e.target.value)}
+            className="border px-3 py-2 rounded"
+          >
+            <option value="All">All</option>
+            <option value="Men">Men</option>
+            <option value="Women">Women</option>
+            <option value="Unisex">Unisex</option>
+          </select>
+
+          <button
+            onClick={() => navigate('/admin/add-product')}
+            className="bg-black text-white px-4 py-2 rounded hover:bg-pink-600"
+          >
+            + Add Product
+          </button>
+        </div>
       </div>
 
       <div className="overflow-x-auto bg-white shadow rounded">
@@ -64,7 +108,8 @@ export default function AdminProductList() {
           </thead>
 
           <tbody>
-            {products.map((product) => (
+            {/* {products.map((product) => ( */}
+            {filteredProducts.map((product) => (
               <tr key={product._id} className="border-t">
                 <td className="p-3">
                   <img
@@ -97,7 +142,8 @@ export default function AdminProductList() {
               </tr>
             ))}
 
-            {products.length === 0 && (
+            {/* {products.length === 0 && ( */}
+            {filteredProducts.length === 0 && (
               <tr>
                 <td colSpan="6" className="p-4 text-center text-gray-500">
                   No products found
