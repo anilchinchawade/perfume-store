@@ -1,10 +1,12 @@
 // import { useCart } from '../context/CartContext';
 import { useCart } from '../context/useCart';
+import { useNavigate } from 'react-router-dom';
 
 export default function Cart() {
   const { cartItems, removeFromCart, updateQuantity } = useCart();
 
   const total = cartItems.reduce((sum, item) => sum + item.price * item.qty, 0);
+  const navigate = useNavigate();
 
   return (
     <div className="max-w-4xl mx-auto p-6">
@@ -41,7 +43,13 @@ export default function Cart() {
       {cartItems.length > 0 && (
         <div className="mt-6 text-right">
           <h2 className="text-xl font-bold">Total: ₹{total}</h2>
-          <button className="mt-4 bg-black text-white px-6 py-2 rounded">
+          {/* <button className="mt-4 bg-black text-white px-6 py-2 rounded">
+            Checkout
+          </button> */}
+          <button
+            onClick={() => navigate('/checkout')}
+            className="mt-4 bg-black text-white px-6 py-2 rounded"
+          >
             Checkout
           </button>
         </div>
