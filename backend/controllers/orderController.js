@@ -78,3 +78,19 @@ exports.markOrderDelivered = async (req, res) => {
         res.status(500).json({ message: "Failed to mark order delivered" });
     }
 };
+
+// GET ORDERS BY CUSTOMER PHONE
+exports.getMyOrders = async (req, res) => {
+    try {
+        const { phone } = req.params;
+
+        const orders = await Order.find({
+            "shippingAddress.phone": phone,
+        }).sort({ createdAt: -1 });
+
+        res.json(orders);
+    } catch (error) {
+        res.status(500).json({ message: "Failed to fetch customer orders" });
+    }
+};
+
