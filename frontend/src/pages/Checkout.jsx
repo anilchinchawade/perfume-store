@@ -1,5 +1,5 @@
 import { useCart } from '../context/useCart';
-import axios from 'axios';
+//  import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 
@@ -21,46 +21,45 @@ export default function Checkout() {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
-  //   const placeOrder = async () => {
-  //     if (cartItems.length === 0) return;
+  // const placeOrder = async () => {
+  //   console.log('Place Order clicked');
 
-  //     await axios.post('http://localhost:5000/api/orders', {
-  //       orderItems: cartItems,
+  //   if (cartItems.length === 0) return;
+
+  //   try {
+  //     const res = await axios.post('http://localhost:5000/api/orders', {
+  //       // orderItems: cartItems,
+  //       orderItems: cartItems.map((item) => ({
+  //         product: item._id,
+  //         name: item.name,
+  //         price: item.price,
+  //         qty: item.qty,
+  //         image: item.image,
+  //       })),
+
   //       shippingAddress: form,
   //       totalPrice: total,
   //     });
 
-  //     localStorage.removeItem('cartItems');
-  //     navigate('/orders');
-  //   };
-  const placeOrder = async () => {
-    console.log('Place Order clicked');
+  //     console.log('Order API success', res.data);
 
+  //     localStorage.removeItem('cartItems');
+  //     navigate('/order-success');
+  //   } catch (error) {
+  //     console.error('Order API failed', error.response?.data || error.message);
+  //     alert('Failed to place order. Check console.');
+  //   }
+  // };
+  const placeOrder = () => {
     if (cartItems.length === 0) return;
 
-    try {
-      const res = await axios.post('http://localhost:5000/api/orders', {
-        // orderItems: cartItems,
-        orderItems: cartItems.map((item) => ({
-          product: item._id,
-          name: item.name,
-          price: item.price,
-          qty: item.qty,
-          image: item.image,
-        })),
-
-        shippingAddress: form,
-        totalPrice: total,
-      });
-
-      console.log('Order API success', res.data);
-
-      localStorage.removeItem('cartItems');
-      navigate('/order-success');
-    } catch (error) {
-      console.error('Order API failed', error.response?.data || error.message);
-      alert('Failed to place order. Check console.');
-    }
+    navigate('/gpay-payment', {
+      state: {
+        cartItems,
+        form,
+        total,
+      },
+    });
   };
 
   return (

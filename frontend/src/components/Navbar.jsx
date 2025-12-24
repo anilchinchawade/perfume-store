@@ -41,12 +41,21 @@ export default function Navbar() {
       )}
 
       {isTokenValid() && (
-        <Link
-          to="/admin/products"
-          className="text-sm font-medium hover:text-pink-600"
-        >
-          Admin Products
-        </Link>
+        <>
+          <Link
+            to="/admin/products"
+            className="mr-4 text-sm font-medium hover:text-pink-600"
+          >
+            Admin Products
+          </Link>
+
+          <Link
+            to="/admin/orders"
+            className="text-sm font-medium hover:text-pink-600"
+          >
+            Orders
+          </Link>
+        </>
       )}
     </nav>
   );

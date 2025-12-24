@@ -33,6 +33,22 @@ const orderSchema = new mongoose.Schema(
             type: Boolean,
             default: false,
         },
+        paymentMethod: {
+            type: String,
+            default: "GPay QR",
+        },
+
+        paymentStatus: {
+            type: String,
+            enum: ["Pending", "Paid"],
+            default: "Pending",
+        },
+
+        isDelivered: {
+            type: Boolean,
+            default: false,
+        },
+
     },
     { timestamps: true }
 );
