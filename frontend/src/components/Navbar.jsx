@@ -58,6 +58,9 @@ export default function Navbar() {
           >
             Orders
           </Link>
+          <Link to="/admin/dashboard" className="text-sm hover:text-pink-600">
+            Dashboard
+          </Link>
         </>
       )}
     </nav>
