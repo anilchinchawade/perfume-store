@@ -14,6 +14,7 @@ import Orders from './pages/Orders';
 import GPayPayment from './pages/GPayPayment';
 import OrderSuccess from './pages/OrderSuccess';
 import AdminOrders from './pages/AdminOrders';
+import OrderStatus from './pages/OrderStatus';
 
 function App() {
   return (
@@ -62,6 +63,7 @@ function App() {
               </ProtectedAdminRoute>
             }
           />
+          <Route path="/order-status/:id" element={<OrderStatus />} />
         </Routes>
       </Layout>
     </BrowserRouter>

@@ -37,6 +37,9 @@ export default function Navbar() {
           <Link to="/cart" className="block py-1">
             Cart
           </Link>
+          {/* <Link to="/orders" className="text-sm hover:text-pink-600">
+            My Orders
+          </Link> */}
         </div>
       )}
 
