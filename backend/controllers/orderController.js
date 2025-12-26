@@ -109,4 +109,46 @@ exports.getOrderById = async (req, res) => {
     }
 };
 
+// ADMIN DASHBOARD STATS
+exports.getDashboardStats = async (req, res) => {
+    try {
+        const totalOrders = await Order.countDocuments();
+
+        const totalRevenueAgg = await Order.aggregate([
+            { $match: { isPaid: true } },
+            { $group: { _id: null, total: { $sum: "$totalPrice" } } },
+        ]);
+
+        const totalRevenue = totalRevenueAgg[0]?.total || 0;
+
+        const pendingPayments = await Order.countDocuments({ isPaid: false });
+        const deliveredOrders = await Order.countDocuments({ isDelivered: true });
+
+        // Orders per day (last 7 days)
+        const salesByDate = await Order.aggregate([
+            {
+                $group: {
+                    _id: {
+                        $dateToString: { format: "%Y-%m-%d", date: "$createdAt" },
+                    },
+                    count: { $sum: 1 },
+                },
+            },
+            { $sort: { _id: 1 } },
+            { $limit: 7 },
+        ]);
+
+        res.json({
+            totalOrders,
+            totalRevenue,
+            pendingPayments,
+            deliveredOrders,
+            salesByDate,
+        });
+    } catch (error) {
+        res.status(500).json({ message: "Failed to load dashboard stats" });
+    }
+};
+
+
 
