@@ -1,6 +1,15 @@
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { getToken } from '../utils/auth';
+import {
+  LineChart,
+  Line,
+  XAxis,
+  YAxis,
+  CartesianGrid,
+  Tooltip,
+  ResponsiveContainer,
+} from 'recharts';
 
 export default function AdminDashboard() {
   const [stats, setStats] = useState(null);
@@ -36,16 +45,49 @@ export default function AdminDashboard() {
         <Card title="Delivered Orders" value={stats.deliveredOrders} />
       </div>
 
-      {/* SIMPLE SALES LIST */}
-      <div>
-        <h2 className="text-lg font-semibold mb-2">Orders by Date</h2>
-        <ul className="list-disc ml-6">
-          {stats.salesByDate.map((item) => (
-            <li key={item._id}>
-              {item._id}: {item.count} orders
-            </li>
-          ))}
-        </ul>
+      {/* <div className="mt-8">
+        <h2 className="text-lg font-semibold mb-4">Orders Trend</h2>
+
+        <div className="w-full h-72">
+          <ResponsiveContainer width="100%" height="100%">
+            <LineChart data={stats.salesByDate}>
+              <CartesianGrid strokeDasharray="3 3" />
+              <XAxis dataKey="_id" />
+              <YAxis allowDecimals={false} />
+              <Tooltip />
+              <Line
+                type="monotone"
+                dataKey="count"
+                stroke="#ec4899"
+                strokeWidth={3}
+              />
+            </LineChart>
+          </ResponsiveContainer>
+        </div>
+      </div> */}
+      <div className="mt-8">
+        <h2 className="text-lg font-semibold mb-4">Orders Trend</h2>
+
+        {stats.salesByDate.length === 0 ? (
+          <p className="text-gray-500">No order data available yet.</p>
+        ) : (
+          <div className="w-full h-72">
+            <ResponsiveContainer width="100%" height="100%">
+              <LineChart data={stats.salesByDate}>
+                <CartesianGrid strokeDasharray="3 3" />
+                <XAxis dataKey="_id" />
+                <YAxis allowDecimals={false} />
+                <Tooltip />
+                <Line
+                  type="monotone"
+                  dataKey="count"
+                  stroke="#ec4899"
+                  strokeWidth={3}
+                />
+              </LineChart>
+            </ResponsiveContainer>
+          </div>
+        )}
       </div>
     </div>
   );

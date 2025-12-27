@@ -54,11 +54,14 @@ export default function Navbar() {
 
           <Link
             to="/admin/orders"
-            className="text-sm font-medium hover:text-pink-600"
+            className="mr-4 text-sm font-medium hover:text-pink-600"
           >
             Orders
           </Link>
-          <Link to="/admin/dashboard" className="text-sm hover:text-pink-600">
+          <Link
+            to="/admin/dashboard"
+            className="mr-4 text-sm font-medium hover:text-pink-600"
+          >
             Dashboard
           </Link>
         </>
