@@ -43,7 +43,11 @@ export default function GPayPayment() {
 
       <p className="mb-3">Scan the QR code below to complete payment</p>
 
-      <img src="/gpay-qr.png" alt="GPay QR" className="mx-auto w-64 h-64" />
+      <img
+        src=".\public\gpay-qr.png"
+        alt="GPay QR"
+        className="mx-auto w-64 h-64"
+      />
 
       <p className="mt-4 font-semibold">Amount: ₹{total}</p>
 
