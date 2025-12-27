@@ -6,7 +6,6 @@ require("dotenv").config();
 const app = express();
 app.use(express.json());
 
-// const Product = require("./models/Product");
 const productRoutes = require("./routes/productRoutes");
 
 const uploadRoutes = require("./routes/uploadRoutes");
@@ -15,10 +14,24 @@ const authRoutes = require("./routes/authRoutes");
 
 const orderRoutes = require("./routes/orderRoutes");
 
-// app.use(cors());
+// CORS configuration
+const allowedOrigins = [
+    "http://localhost:5173",
+    process.env.FRONTEND_URL,
+].filter(Boolean);
+
 app.use(
     cors({
-        origin: "http://localhost:5173",
+        origin: function (origin, callback) {
+            // allow requests with no origin (Postman, mobile apps)
+            if (!origin) return callback(null, true);
+
+            if (allowedOrigins.includes(origin)) {
+                callback(null, true);
+            } else {
+                callback(null, false);
+            }
+        },
         credentials: true,
     })
 );
@@ -41,22 +54,6 @@ mongoose.connect(process.env.MONGO_URI, {
 app.get("/", (req, res) => {
     res.send("Backend & MongoDB connected 🚀");
 });
-
-// app.get("/test-product", async (req, res) => {
-//     const product = await Product.create({
-//         name: "Ocean Breeze",
-//         brand: "AromaLux",
-//         description: "Fresh ocean-inspired fragrance",
-//         price: 1999,
-//         category: "Unisex",
-//         volume: 100,
-//         image: "https://example.com/perfume.jpg",
-//         stock: 50,
-//     });
-
-//     res.json(product);
-// });
-
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () =>
