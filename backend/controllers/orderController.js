@@ -110,32 +110,105 @@ exports.getOrderById = async (req, res) => {
 };
 
 // ADMIN DASHBOARD STATS
+// exports.getDashboardStats = async (req, res) => {
+//     try {
+//         const totalOrders = await Order.countDocuments();
+
+//         const totalRevenueAgg = await Order.aggregate([
+//             { $match: { isPaid: true } },
+//             { $group: { _id: null, total: { $sum: "$totalPrice" } } },
+//         ]);
+
+//         const totalRevenue = totalRevenueAgg[0]?.total || 0;
+
+//         const pendingPayments = await Order.countDocuments({ isPaid: false });
+//         const deliveredOrders = await Order.countDocuments({ isDelivered: true });
+
+//         // Orders per day (last 7 days)
+//         const salesByDate = await Order.aggregate([
+//             {
+//                 $group: {
+//                     _id: {
+//                         $dateToString: { format: "%Y-%m-%d", date: "$createdAt" },
+//                     },
+//                     count: { $sum: 1 },
+//                 },
+//             },
+//             { $sort: { _id: 1 } },
+//             { $limit: 7 },
+//         ]);
+
+//         res.json({
+//             totalOrders,
+//             totalRevenue,
+//             pendingPayments,
+//             deliveredOrders,
+//             salesByDate,
+//         });
+//     } catch (error) {
+//         res.status(500).json({ message: "Failed to load dashboard stats" });
+//     }
+// };
 exports.getDashboardStats = async (req, res) => {
     try {
-        const totalOrders = await Order.countDocuments();
+        const { startDate, endDate } = req.query;
 
-        const totalRevenueAgg = await Order.aggregate([
-            { $match: { isPaid: true } },
-            { $group: { _id: null, total: { $sum: "$totalPrice" } } },
+        const dateFilter =
+            startDate && endDate
+                ? {
+                    createdAt: {
+                        $gte: new Date(startDate),
+                        $lte: new Date(endDate),
+                    },
+                }
+                : {};
+
+        const totalOrders = await Order.countDocuments(dateFilter);
+
+        const revenueAgg = await Order.aggregate([
+            {
+                $match: {
+                    ...dateFilter,
+                    isPaid: true,
+                },
+            },
+            {
+                $group: {
+                    _id: null,
+                    total: { $sum: "$totalPrice" },
+                },
+            },
         ]);
 
-        const totalRevenue = totalRevenueAgg[0]?.total || 0;
+        const totalRevenue = revenueAgg[0]?.total || 0;
 
-        const pendingPayments = await Order.countDocuments({ isPaid: false });
-        const deliveredOrders = await Order.countDocuments({ isDelivered: true });
+        const pendingPayments = await Order.countDocuments({
+            ...dateFilter,
+            isPaid: false,
+        });
 
-        // Orders per day (last 7 days)
-        const salesByDate = await Order.aggregate([
+        const deliveredOrders = await Order.countDocuments({
+            ...dateFilter,
+            isDelivered: true,
+        });
+
+        // 📈 Revenue by date
+        const revenueByDate = await Order.aggregate([
+            {
+                $match: {
+                    ...dateFilter,
+                    isPaid: true,
+                },
+            },
             {
                 $group: {
                     _id: {
                         $dateToString: { format: "%Y-%m-%d", date: "$createdAt" },
                     },
-                    count: { $sum: 1 },
+                    revenue: { $sum: "$totalPrice" },
                 },
             },
             { $sort: { _id: 1 } },
-            { $limit: 7 },
         ]);
 
         res.json({
@@ -143,12 +216,13 @@ exports.getDashboardStats = async (req, res) => {
             totalRevenue,
             pendingPayments,
             deliveredOrders,
-            salesByDate,
+            revenueByDate,
         });
     } catch (error) {
         res.status(500).json({ message: "Failed to load dashboard stats" });
     }
 };
+
 
 
 
