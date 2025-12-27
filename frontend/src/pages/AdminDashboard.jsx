@@ -22,7 +22,7 @@ export default function AdminDashboard() {
   const fetchStats = async () => {
     try {
       const res = await axios.get(
-        'http://localhost:5000/api/orders/admin/dashboard',
+        `${import.meta.env.VITE_API_BASE_URL}/api/orders/admin/dashboard`,
         {
           headers: {
             Authorization: `Bearer ${token}`,

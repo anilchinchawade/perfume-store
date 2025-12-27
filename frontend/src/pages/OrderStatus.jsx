@@ -1,6 +1,7 @@
 import { useParams } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
+import.meta.env.VITE_API_BASE_URL;
 
 export default function OrderStatus() {
   const { id } = useParams();
@@ -11,7 +12,9 @@ export default function OrderStatus() {
   useEffect(() => {
     const fetchOrder = async () => {
       try {
-        const res = await axios.get(`http://localhost:5000/api/orders/${id}`);
+        const res = await axios.get(
+          `${import.meta.env.VITE_API_BASE_URL}/api/orders/${id}`
+        );
         setOrder(res.data);
       } catch {
         setError('Order not found');

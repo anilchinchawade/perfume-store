@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { getToken } from '../utils/auth';
 import { useNavigate } from 'react-router-dom';
+import.meta.env.VITE_API_BASE_URL;
 
 export default function AdminProductList() {
   const [search, setSearch] = useState('');
@@ -16,13 +17,17 @@ export default function AdminProductList() {
   const navigate = useNavigate();
 
   const fetchProducts = async () => {
-    const res = await axios.get('http://localhost:5000/api/products');
+    const res = await axios.get(
+      `${import.meta.env.VITE_API_BASE_URL}/api/products`
+    );
     setProducts(res.data);
   };
 
   useEffect(() => {
     const loadProducts = async () => {
-      const res = await axios.get('http://localhost:5000/api/products');
+      const res = await axios.get(
+        `${import.meta.env.VITE_API_BASE_URL}/api/products`
+      );
       setProducts(res.data);
     };
 
@@ -50,11 +55,14 @@ export default function AdminProductList() {
     if (!window.confirm('Are you sure you want to delete this product?'))
       return;
 
-    await axios.delete(`http://localhost:5000/api/products/${id}`, {
-      headers: {
-        Authorization: `Bearer ${getToken()}`,
-      },
-    });
+    await axios.delete(
+      `${import.meta.env.VITE_API_BASE_URL}/api/products/${id}`,
+      {
+        headers: {
+          Authorization: `Bearer ${getToken()}`,
+        },
+      }
+    );
 
     fetchProducts();
   };
@@ -82,11 +90,14 @@ export default function AdminProductList() {
     if (!window.confirm('Delete selected products?')) return;
 
     for (const id of selectedIds) {
-      await axios.delete(`http://localhost:5000/api/products/${id}`, {
-        headers: {
-          Authorization: `Bearer ${getToken()}`,
-        },
-      });
+      await axios.delete(
+        `${import.meta.env.VITE_API_BASE_URL}/api/products/${id}`,
+        {
+          headers: {
+            Authorization: `Bearer ${getToken()}`,
+          },
+        }
+      );
     }
 
     setSelectedIds([]);

@@ -1,5 +1,6 @@
 import { useLocation, useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import.meta.env.VITE_API_BASE_URL;
 
 export default function GPayPayment() {
   const navigate = useNavigate();
@@ -15,7 +16,7 @@ export default function GPayPayment() {
 
   const confirmPayment = async () => {
     try {
-      await axios.post('http://localhost:5000/api/orders', {
+      await axios.post(`${import.meta.env.VITE_API_BASE_URL}/api/orders`, {
         orderItems: cartItems.map((item) => ({
           product: item._id,
           name: item.name,

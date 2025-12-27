@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { getToken } from '../utils/auth';
+import.meta.env.VITE_API_BASE_URL;
 
 export default function AdminEditProduct() {
   const { id } = useParams();
@@ -24,7 +25,7 @@ export default function AdminEditProduct() {
   // Fetch existing product
   useEffect(() => {
     axios
-      .get(`http://localhost:5000/api/products/${id}`)
+      .get(`${import.meta.env.VITE_API_BASE_URL}/api/products/${id}`)
       .then((res) => setFormData(res.data))
       .catch(() => alert('Failed to load product'));
   }, [id]);
@@ -46,7 +47,7 @@ export default function AdminEditProduct() {
         imageData.append('image', newImage);
 
         const uploadRes = await axios.post(
-          'http://localhost:5000/api/upload',
+          `${import.meta.env.VITE_API_BASE_URL}/api/upload`,
           imageData
         );
 
@@ -55,7 +56,7 @@ export default function AdminEditProduct() {
 
       // Update product
       await axios.put(
-        `http://localhost:5000/api/products/${id}`,
+        `${import.meta.env.VITE_API_BASE_URL}/api/products/${id}`,
         {
           ...formData,
           price: Number(formData.price),

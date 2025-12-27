@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import.meta.env.VITE_API_BASE_URL;
 
 export default function AdminLogin() {
   const [email, setEmail] = useState('');
@@ -11,13 +12,13 @@ export default function AdminLogin() {
     e.preventDefault();
 
     try {
-      const res = await axios.post('http://localhost:5000/api/auth/login', {
-        email,
-        password,
-      });
+      const res = await axios.post(
+        `${import.meta.env.VITE_API_BASE_URL}/api/auth/login`,
+        { email, password }
+      );
 
       localStorage.setItem('adminToken', res.data.token);
-      //navigate('/admin/add-product');
+
       // ✅ FORCE NAVIGATION
       navigate('/admin/add-product', { replace: true });
     } catch {

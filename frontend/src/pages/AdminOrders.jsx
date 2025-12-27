@@ -1,17 +1,21 @@
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { getToken } from '../utils/auth';
+import.meta.env.VITE_API_BASE_URL;
 
 export default function AdminOrders() {
   const [orders, setOrders] = useState([]);
   const token = getToken();
 
   const fetchOrders = async () => {
-    const res = await axios.get('http://localhost:5000/api/orders', {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
+    const res = await axios.get(
+      `${import.meta.env.VITE_API_BASE_URL}/api/orders`,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
     setOrders(res.data);
   };
 
@@ -21,7 +25,7 @@ export default function AdminOrders() {
 
   const markPaid = async (id) => {
     await axios.put(
-      `http://localhost:5000/api/orders/${id}/pay`,
+      `${import.meta.env.VITE_API_BASE_URL}/api/orders/${id}/pay`,
       {},
       {
         headers: {
@@ -34,7 +38,7 @@ export default function AdminOrders() {
 
   const markDelivered = async (id) => {
     await axios.put(
-      `http://localhost:5000/api/orders/${id}/deliver`,
+      `http://${import.meta.env.VITE_API_BASE_URL}/api/orders/${id}/deliver`,
       {},
       {
         headers: {

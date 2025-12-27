@@ -3,6 +3,7 @@ import { useState } from 'react';
 import axios from 'axios';
 import { logout } from '../utils/auth';
 import { useNavigate } from 'react-router-dom';
+import.meta.env.VITE_API_BASE_URL;
 
 export default function AdminAddProduct() {
   const [formData, setFormData] = useState({
@@ -43,7 +44,7 @@ export default function AdminAddProduct() {
       imageData.append('image', image);
 
       const uploadRes = await axios.post(
-        'http://localhost:5000/api/upload',
+        `${import.meta.env.VITE_API_BASE_URL}/api/uploads`,
         imageData
       );
 
@@ -51,7 +52,7 @@ export default function AdminAddProduct() {
 
       // 2️⃣ Create product
       await axios.post(
-        'http://localhost:5000/api/products',
+        `${import.meta.env.VITE_API_BASE_URL}/api/products`,
         {
           ...formData,
           price: Number(formData.price),
