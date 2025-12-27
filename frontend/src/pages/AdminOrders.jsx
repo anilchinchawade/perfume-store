@@ -38,7 +38,7 @@ export default function AdminOrders() {
 
   const markDelivered = async (id) => {
     await axios.put(
-      `http://${import.meta.env.VITE_API_BASE_URL}/api/orders/${id}/deliver`,
+      `${import.meta.env.VITE_API_BASE_URL}/api/orders/${id}/deliver`,
       {},
       {
         headers: {
