@@ -93,8 +93,7 @@ export default function AdminDashboard() {
           strokeWidth={3}
         />
       </LineChart>
-      console.log("API URL USED:", `${import.meta.env.VITE_API_BASE_URL}
-      /api/orders/admin/dashboard`);
+
       {/* REVENUE TREND */}
       <h2 className="text-lg font-semibold mt-10 mb-2">Revenue Trend</h2>
       <LineChart width={800} height={300} data={stats.revenueByDate || []}>

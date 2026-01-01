@@ -9,7 +9,8 @@ export default function Navbar() {
   const { cartItems } = useCart();
 
   return (
-    <nav className="bg-white shadow-md">
+    // <nav className="bg-white shadow-md">
+    <nav className="sticky top-0 z-50 bg-white shadow-sm">
       <div className="max-w-7xl mx-auto px-4 py-3 flex justify-between items-center">
         <Link to="/" className="text-2xl font-bold">
           Perfume<span className="text-pink-600">Store</span>
