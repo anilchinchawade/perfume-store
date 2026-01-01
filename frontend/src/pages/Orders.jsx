@@ -23,7 +23,7 @@ export default function Orders() {
       );
       setOrders(res.data);
     } catch (err) {
-      setError('Failed to fetch orders');
+      setError('Failed to fetch orders', err);
     } finally {
       setLoading(false);
     }

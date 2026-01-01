@@ -47,20 +47,20 @@ export default function Navbar() {
         <>
           <Link
             to="/admin/products"
-            className="mr-4 text-sm font-medium hover:text-pink-600"
+            className="pl-4 mr-4 text-sm font-bold hover:text-pink-600"
           >
             Admin Products
           </Link>
 
           <Link
             to="/admin/orders"
-            className="mr-4 text-sm font-medium hover:text-pink-600"
+            className="mr-4 text-sm font-bold hover:text-pink-600"
           >
             Orders
           </Link>
           <Link
             to="/admin/dashboard"
-            className="mr-4 text-sm font-medium hover:text-pink-600"
+            className="mr-4 text-sm font-bold hover:text-pink-600"
           >
             Dashboard
           </Link>
