@@ -74,7 +74,7 @@ export default function AdminEditProduct() {
       alert('Product updated successfully ✅');
       navigate('/admin/products');
     } catch (error) {
-      alert('Update failed ❌');
+      alert('Update failed ❌', error);
     } finally {
       setLoading(false);
     }

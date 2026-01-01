@@ -111,7 +111,7 @@ exports.getOrderById = async (req, res) => {
 
 // GET DASHBOARD STATS (Admin)
 exports.getDashboardStats = async (req, res) => {
-    console.log("🔥 DASHBOARD STATS HIT (PRODUCTION)");
+
     try {
         const { startDate, endDate } = req.query;
 
@@ -170,7 +170,6 @@ exports.getDashboardStats = async (req, res) => {
             { $sort: { _id: 1 } },
         ]);
 
-        console.log("📊 SALES BY DATE:", salesByDate);
 
         res.json({
             totalOrders,
