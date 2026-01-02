@@ -1,8 +1,8 @@
 import { getToken } from '../utils/auth';
 import { useState } from 'react';
 import axios from 'axios';
-import { logout } from '../utils/auth';
-import { useNavigate } from 'react-router-dom';
+// import { logout } from '../utils/auth';
+// import { useNavigate } from 'react-router-dom';
 import.meta.env.VITE_API_BASE_URL;
 
 export default function AdminAddProduct() {
@@ -19,13 +19,13 @@ export default function AdminAddProduct() {
   const [image, setImage] = useState(null);
   const [loading, setLoading] = useState(false);
 
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
 
-  const handleLogout = () => {
-    logout();
-    // navigate('/admin/add-product');
-    navigate('/admin/login', { replace: true });
-  };
+  // const handleLogout = () => {
+  //   logout();
+  //   // navigate('/admin/add-product');
+  //   navigate('/admin/login', { replace: true });
+  // };
 
   const handleChange = (e) => {
     setFormData({
@@ -92,14 +92,14 @@ export default function AdminAddProduct() {
     <div className="max-w-3xl mx-auto p-6">
       <h1 className="text-2xl font-bold mb-6">Admin – Add New Product</h1>
 
-      <div className="flex justify-end mb-4">
+      {/* <div className="flex justify-end mb-4">
         <button
           onClick={handleLogout}
           className="text-sm bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600"
         >
           Logout
         </button>
-      </div>
+      </div> */}
 
       <form
         onSubmit={handleSubmit}
