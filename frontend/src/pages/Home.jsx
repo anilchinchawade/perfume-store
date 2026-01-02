@@ -44,8 +44,9 @@ export default function Home() {
                       e.target.src =
                         'https://images.unsplash.com/photo-1594035910387-fea47794261f';
                     }}
-                    className="h-full w-full object-cover
-             group-hover:scale-110 transition duration-300"
+                    //         className="h-full w-full object-cover
+                    //  group-hover:scale-110 transition duration-300"
+                    className="w-full h-56 object-cover transition-transform duration-300 hover:scale-110"
                   />
                 }
               </div>
@@ -63,7 +64,7 @@ export default function Home() {
                     ₹{product.price}
                   </span>
 
-                  <span className="text-xs bg-gray-200 px-3 py-1 rounded-full">
+                  <span className="text-xs  px-3 py-1 rounded-full">
                     {product.volume} ml
                   </span>
                 </div>
@@ -71,12 +72,14 @@ export default function Home() {
                 <button
                   className="mt-5 w-full bg-black text-white py-2 rounded-lg
                              hover:bg-pink-600 transition"
+                  // className="mt-3 bg-black text-white px-4 py-2 rounded hover:bg-pink-600"
                 >
                   View Details
                 </button>
                 <button
                   onClick={() => addToCart(product)}
-                  className="mt-3 bg-black text-white px-4 py-2 rounded hover:bg-pink-600"
+                  className="mt-5 w-full bg-black text-white py-2 rounded-lg
+                             hover:bg-pink-600 transition"
                 >
                   Add to Cart
                 </button>

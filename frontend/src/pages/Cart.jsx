@@ -43,12 +43,10 @@ export default function Cart() {
       {cartItems.length > 0 && (
         <div className="mt-6 text-right">
           <h2 className="text-xl font-bold">Total: ₹{total}</h2>
-          {/* <button className="mt-4 bg-black text-white px-6 py-2 rounded">
-            Checkout
-          </button> */}
+
           <button
             onClick={() => navigate('/checkout')}
-            className="mt-4 bg-black text-white px-6 py-2 rounded"
+            className="mt-4 bg-black text-white px-6 py-2 rounded hover:bg-pink-600"
           >
             Checkout
           </button>

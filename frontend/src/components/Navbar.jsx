@@ -1,13 +1,18 @@
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useState } from 'react';
-import { isTokenValid } from '../utils/auth';
-// import { useCart } from '../context/CartContext';
+import { isTokenValid, logout } from '../utils/auth';
 import { useCart } from '../context/useCart';
 
 export default function Navbar() {
+  const navigate = useNavigate();
   const [open, setOpen] = useState(false);
   const { cartItems } = useCart();
+  const isAdmin = isTokenValid();
 
+  const handleLogout = () => {
+    logout();
+    navigate('/admin/login', { replace: true });
+  };
   return (
     // <nav className="bg-white shadow-md">
     <nav className="sticky top-0 z-50 bg-white shadow-sm">
@@ -17,10 +22,16 @@ export default function Navbar() {
         </Link>
 
         <div className="hidden md:flex gap-6">
-          <Link to="/" className="hover:text-pink-600">
+          <Link
+            to="/"
+            className="px-3 py-2 rounded-md hover:bg-pink-100 transition"
+          >
             Home
           </Link>
-          <Link to="/cart" className="hover:text-pink-600">
+          <Link
+            to="/cart"
+            className="px-3 py-2 rounded-md hover:bg-pink-100 transition"
+          >
             Cart ({cartItems.length})
           </Link>
         </div>
@@ -32,10 +43,16 @@ export default function Navbar() {
 
       {open && (
         <div className="md:hidden px-4 pb-4">
-          <Link to="/" className="block py-1">
+          <Link
+            to="/"
+            className="px-3 py-2 rounded-md hover:bg-gray-100 transition"
+          >
             Home
           </Link>
-          <Link to="/cart" className="block py-1">
+          <Link
+            to="/cart"
+            className="px-3 py-2 rounded-md hover:bg-gray-100 transition"
+          >
             Cart
           </Link>
           {/* <Link to="/orders" className="text-sm hover:text-pink-600">
@@ -48,24 +65,44 @@ export default function Navbar() {
         <>
           <Link
             to="/admin/products"
-            className="pl-4 mr-4 text-sm font-bold hover:text-pink-600"
+            className="px-3 py-2 rounded-md hover:bg-pink-100 transition"
           >
             Admin Products
           </Link>
 
           <Link
             to="/admin/orders"
-            className="mr-4 text-sm font-bold hover:text-pink-600"
+            className="px-3 py-2 rounded-md hover:bg-pink-100 transition"
           >
             Orders
           </Link>
           <Link
             to="/admin/dashboard"
-            className="mr-4 text-sm font-bold hover:text-pink-600"
+            className="px-3 py-2 rounded-md hover:bg-pink-100 transition"
           >
             Dashboard
           </Link>
+          {/* LOGOUT */}
+          <Link
+            to="/admin/login"
+            onClick={(e) => {
+              e.preventDefault(); // ⛔ stop default navigation
+              handleLogout(); // ✅ clear token + redirect
+            }}
+            className="px-3 py-2 rounded-md hover:bg-pink-100 transition"
+          >
+            Logout
+          </Link>
         </>
+      )}
+      {/* Login link (only if NOT admin) */}
+      {!isAdmin && (
+        <button
+          onClick={() => navigate('/admin/login')}
+          className="px-3 py-2 rounded-md hover:bg-pink-100 transition"
+        >
+          Admin Login
+        </button>
       )}
     </nav>
   );
