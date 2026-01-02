@@ -16,6 +16,7 @@ import OrderSuccess from './pages/OrderSuccess';
 import AdminOrders from './pages/AdminOrders';
 import OrderStatus from './pages/OrderStatus';
 import AdminDashboard from './pages/AdminDashboard';
+import AdminLayout from './components/AdminLayout';
 
 function App() {
   return (
@@ -24,10 +25,24 @@ function App() {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/product/:id" element={<ProductDetails />} />
+          <Route
+            path="/admin"
+            element={
+              <ProtectedAdminRoute>
+                <AdminLayout />
+              </ProtectedAdminRoute>
+            }
+          >
+            <Route path="dashboard" element={<AdminDashboard />} />
+            <Route path="products" element={<AdminProductList />} />
+            <Route path="orders" element={<AdminOrders />} />
+            <Route path="edit-product/:id" element={<AdminEditProduct />} />
+            <Route path="add-product" element={<AdminAddProduct />} />
+          </Route>
 
           <Route path="/admin/login" element={<AdminLogin />} />
 
-          <Route
+          {/* <Route
             path="/admin/add-product"
             element={
               <ProtectedAdminRoute>
@@ -50,7 +65,7 @@ function App() {
                 <AdminEditProduct />
               </ProtectedAdminRoute>
             }
-          />
+          /> */}
           <Route path="/cart" element={<Cart />} />
           <Route path="/checkout" element={<Checkout />} />
           <Route path="/orders" element={<Orders />} />
