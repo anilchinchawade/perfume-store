@@ -42,30 +42,6 @@ function App() {
 
           <Route path="/admin/login" element={<AdminLogin />} />
 
-          {/* <Route
-            path="/admin/add-product"
-            element={
-              <ProtectedAdminRoute>
-                <AdminAddProduct />
-              </ProtectedAdminRoute>
-            }
-          />
-          <Route
-            path="/admin/products"
-            element={
-              <ProtectedAdminRoute>
-                <AdminProductList />
-              </ProtectedAdminRoute>
-            }
-          />
-          <Route
-            path="/admin/edit-product/:id"
-            element={
-              <ProtectedAdminRoute>
-                <AdminEditProduct />
-              </ProtectedAdminRoute>
-            }
-          /> */}
           <Route path="/cart" element={<Cart />} />
           <Route path="/checkout" element={<Checkout />} />
           <Route path="/orders" element={<Orders />} />

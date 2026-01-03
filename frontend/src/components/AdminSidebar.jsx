@@ -2,26 +2,34 @@ import { Link, useNavigate } from 'react-router-dom';
 import { logout } from '../utils/auth';
 import toast from 'react-hot-toast';
 
-export default function AdminSidebar() {
+export default function AdminSidebar({ sidebarOpen, setSidebarOpen }) {
   const navigate = useNavigate();
-
   const handleLogout = () => {
     logout();
     toast.success('Logged out successfully 👋');
     navigate('/admin/login', { replace: true });
   };
-
   return (
-    <aside className="w-64 bg-white dark:bg-gray-800 shadow-lg">
-      <div className="p-5 border-b dark:border-gray-700">
-        <h2 className="text-xl font-bold text-gray-800 dark:text-white">
-          Admin Panel
-        </h2>
-      </div>
+    <div
+      className={`
+        fixed md:static top-0 left-0 h-full z-50
+        w-64 bg-white border-r
+        transform transition-transform duration-300
+        ${sidebarOpen ? 'translate-x-0' : '-translate-x-full'}
+        md:translate-x-0
+      `}
+    >
+      <button
+        className="md:hidden p-2 w-full text-right"
+        onClick={() => setSidebarOpen(false)}
+      >
+        ✕
+      </button>
 
       <nav className="p-4 space-y-3">
         <Link
           to="/admin/dashboard"
+          onClick={() => setSidebarOpen(false)}
           className="block px-4 py-2 rounded hover:bg-pink-600 hover:text-white"
         >
           📊 Dashboard
@@ -29,6 +37,7 @@ export default function AdminSidebar() {
 
         <Link
           to="/admin/products"
+          onClick={() => setSidebarOpen(false)}
           className="block px-4 py-2 rounded hover:bg-pink-600 hover:text-white"
         >
           🧴 Products
@@ -36,6 +45,7 @@ export default function AdminSidebar() {
 
         <Link
           to="/admin/orders"
+          onClick={() => setSidebarOpen(false)}
           className="block px-4 py-2 rounded hover:bg-pink-600 hover:text-white"
         >
           📦 Orders
@@ -48,6 +58,6 @@ export default function AdminSidebar() {
           🚪 Logout
         </button>
       </nav>
-    </aside>
+    </div>
   );
 }
